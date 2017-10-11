@@ -1,45 +1,17 @@
-function loadImage(url){
-    return new Promise(resolve => {
-        const image = new Image();
-        image.addEventListener('load', () => {
-            resolve(image);
-        });
-        image.src = url;
+import SpriteSheet from './spritesheet.js';
+import {loadImage,loadLevel} from './loader.js';
+
+
+function drawBackground(background, context, sprites){
+    background.ranges.forEach(([x1,x2,y1,y2]) => {
+        for(let x = x1; x < x2; x++){
+            for(let y = y1; y < y2; y++){
+            sprites.drawTile(background.tile, context, x ,y);
+        }
+    }
     });
 }
 
-
-class SpriteSheet{
-    constructor(image, width, height){
-        this.image = image;
-        this.width = width;
-        this.height = height;
-        this.tiles = new Map();
-    }
-
-    define(name, x, y){
-        const buffer = document.createElement('canvas');
-        buffer.width = this.width;
-        buffer.height = this.height;
-        buffer.getContext('2d')
-              .drawImage(this.image, 
-                         x * this.width, 
-                         y * this.height,
-                         this.width,
-                         this.height,
-                         0,
-                         0,
-                        this.width, 
-                        this.height);
-
-        this.tiles.set(name, buffer);
-    }
-
-    draw(name, context, x, y){
-        const buffer = this.tiles.get(name);
-        context.drawImage(buffer, x, y);
-    }
-}
 
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
@@ -48,9 +20,12 @@ loadImage('/img/tiles.png')
 .then(image => {
     const sprites = new SpriteSheet(image, 16, 16);
     sprites.define('ground', 0,0);
-    sprites.draw('ground', context, 45,62);
+    sprites.define('sky', 3, 23);
 
-    context.drawImage(image,
-    0, 0,16,16,
-    32,32,16,16);
+    loadLevel('1-1')
+    .then(level => {
+        level.backgrounds.forEach(background => {
+            drawBackground(background,context, sprites);   
+        });
+    });
 });
