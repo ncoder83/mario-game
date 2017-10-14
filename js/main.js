@@ -1,5 +1,3 @@
-// import SpriteSheet from './spritesheet.js';
-// import Compositor from './compositor.js';
 import Entity from './entity.js';
 import Timer from './timer.js';
 import KeyboardState from './keyboardstate.js';

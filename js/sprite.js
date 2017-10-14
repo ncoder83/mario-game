@@ -1,7 +1,6 @@
 import SpriteSheet from './spritesheet.js';
 import {loadImage} from './loader.js';
 
-
 export function loadMarioSprite(){
     return loadImage('/img/characters.gif')
     .then(image => {
