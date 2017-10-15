@@ -9,7 +9,6 @@ export class Vec{
     }
 }
 
-
 export class Matrix{
     constructor(){
         this.grid = [];
