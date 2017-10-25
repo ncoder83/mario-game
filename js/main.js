@@ -9,7 +9,10 @@ import {setupMouseControl} from './debug.js';
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
-Promise.all([createMario(),loadLevel('1-1')])
+Promise.all([
+    createMario(),
+    loadLevel('1-1')]
+)
 .then(([mario, level]) => {
     const camera = new Camera();
 
