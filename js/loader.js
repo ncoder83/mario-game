@@ -71,10 +71,6 @@ export function loadLevel(name){
             levelSpec, 
             loadSpriteSheet(levelSpec.spriteSheet)
         ]))
-        Promise.all([
-            loadJSON(`/levels/${name}.json`),
-            loadSpriteSheet('overworld')
-        ])
         .then(([levelSpec, backgroundSprites])=> {
             const level = new Level();
 
