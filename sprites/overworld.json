@@ -24,5 +24,8 @@
             "name": "chance",
             "index":[24 ,0]
         }
+    ],
+    "animation":[
+        {"name":"chance"}
     ]
 }
