@@ -14,8 +14,7 @@ export function loadImage(url){
 }
 
 function loadJSON(url){
-    return fetch(url)
-            .then(r => r.json());
+    return fetch(url).then(r => r.json());
 }
 
 function createTiles(level, backgrounds){
@@ -24,9 +23,12 @@ function createTiles(level, backgrounds){
         const xEnd = xStart + xLen;
         const yEnd = yStart + yLen;
 
-        for(let x = xStart; x < xEnd; x++){
-            for(let y = yStart; y < yEnd; y++){
-                level.tiles.set(x,y,{name: background.tile});
+        for(let x = xStart; x < xEnd; ++x){
+            for(let y = yStart; y < yEnd; ++y){
+                level.tiles.set(x,y, {
+                    name: background.tile,
+                    type: background.type
+                });
             }
         }
     }
@@ -58,6 +60,7 @@ function loadSpriteSheet(name){
         ]))
         .then(([sheetSpec, image]) => {
             const sprites = new SpriteSheet(image, sheetSpec.tileW, sheetSpec.tileH);
+            
             sheetSpec.tiles.forEach(tileSpec => {
                 sprites.defineTile(tileSpec.name, tileSpec.index[0],tileSpec.index[1]);
             });
