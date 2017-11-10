@@ -7,7 +7,7 @@ export default class SpriteSheet{
         this.animations = new Map();
     }
 
-    defineAnim(name,animation){
+    defineAnim(name, animation){
         this.animations.set(name, animation);
     }
 
@@ -36,16 +36,19 @@ export default class SpriteSheet{
         });
         this.tiles.set(name, buffers);        
     }
+    
     defineTile(name, x, y){
-        this.define(name, x* this.width, y * this.height, this.width, this.height);
+        this.define(name, x * this.width, y * this.height, this.width, this.height);
     }
+
     draw(name, context, x, y, flip = false){
         const buffer = this.tiles.get(name)[flip?1:0];
         context.drawImage(buffer, x, y);
     }
 
     drawAnim(name,context, x,y, distance){
-        const animation = this.animation.get(name);
+        const animation = this.animations.get(name);
+        this.drawTile(animation(distance), context, x, y);
     }
 
     drawTile(name, context, x, y){
