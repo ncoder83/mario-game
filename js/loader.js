@@ -77,7 +77,6 @@ export function loadSpriteSheet(name){
             if(sheetSpec.animations){
                 sheetSpec.animations.forEach(animSpec => {
                     const animation = createAnimation(animSpec.frames, animSpec.frameLen);
-                    console.log("animated frames", animation);                    
                     sprites.defineAnim(animSpec.name, animation);
                 })
             }
