@@ -20,8 +20,8 @@ export default class SpriteSheet{
     
             const context = buffer.getContext('2d');
             if(flip){
-            context.scale(-1,1);
-            context.translate(-width, 0);
+                context.scale(-1,1);
+                context.translate(-width, 0);
             }
             context.drawImage(this.image, 
                     x, 
@@ -36,7 +36,7 @@ export default class SpriteSheet{
         });
         this.tiles.set(name, buffers);        
     }
-    
+
     defineTile(name, x, y){
         this.define(name, x * this.width, y * this.height, this.width, this.height);
     }
