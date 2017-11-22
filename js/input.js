@@ -10,7 +10,7 @@ export function setupKeyboard(mario){
             mario.jump.cancel();
     });
 
-    input.addMapping('KeyO', keyState => {
+    input.addMapping('ShiftLeft', keyState => {
         mario.turbo(keyState);
     });
 
