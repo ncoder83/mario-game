@@ -9,7 +9,7 @@ export default class Level {
         this.comp = new Compositor();
         this.entities = new Set();
         
-        this.tileCollider = null//new TileCollider(this.tiles);
+        this.tileCollider = null;//new TileCollider(this.tiles);
     }
 
 

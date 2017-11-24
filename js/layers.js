@@ -47,7 +47,6 @@ export function createSpriteLayer(entities, width = 64, height = 64){
 
     return function drawSpriteLayer(context, camera){
 
-
         entities.forEach(entity => {
             spriteBufferContext.clearRect(0,0, width, height);
             entity.draw(spriteBufferContext);
@@ -57,7 +56,6 @@ export function createSpriteLayer(entities, width = 64, height = 64){
         });
     }
 }
-
 
 export function createCollisionLayer(level){
     const resolvedTiles = [];
@@ -86,8 +84,8 @@ export function createCollisionLayer(level){
         level.entities.forEach(entity => {
             context.beginPath();
             context.rect(
-                entity.pos.x - camera.pos.x,
-                entity.pos.y - camera.pos.y, 
+                entity.bounds.left - camera.pos.x,
+                entity.bounds.top - camera.pos.y, 
                 entity.size.x, 
                 entity.size.y
             );
