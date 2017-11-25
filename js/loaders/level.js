@@ -1,6 +1,6 @@
 import {Matrix} from '../math.js'
 import Level from '../level.js';
-import {createBackgroundLayer, createSpriteLayer} from '../layers.js'
+import {createBackgroundLayer, createSpriteLayer, createCollisionLayer} from '../layers.js'
 import {loadJSON, loadSpriteSheet} from '../loader.js'
 
 
@@ -26,6 +26,8 @@ export function loadLevel(name){
                 level.comp.layers.push(backgroundLayer);  
             });
 
+            // const collisionLayer = createCollisionLayer(levelSpec.tiles);
+            // level.comp.layers.push(collisionLayer);
 
             const spriteLayer = createSpriteLayer(level.entities);
             level.comp.layers.push(spriteLayer);
@@ -35,6 +37,7 @@ export function loadLevel(name){
 
 function createCollisionGrid(tiles, patterns){
     const grid = new Matrix();
+
     for(const {tile, x, y} of expandTiles(tiles, patterns)){
         grid.set(x, y, {type: tile.type});
     }

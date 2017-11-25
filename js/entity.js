@@ -31,6 +31,7 @@ export default class Entity{
         this.size = new Vec(0,0);
         this.offset = new Vec(0,0);
         this.bounds = new BoundingBox(this.pos, this.size, this.offset);
+        console.log(this.bounds);
         this.lifetime = 0;
         
         this.traits = [];

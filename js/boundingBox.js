@@ -2,7 +2,7 @@ export default class BoundingBox{
     constructor(pos,size, offset){
         this.pos = pos;
         this.size = size;
-        this.offset = offscreenBuffering;
+        this.offset = offset;
 
     }
 

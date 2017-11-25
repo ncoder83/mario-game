@@ -14,6 +14,7 @@ export default class Level {
 
 
     setCollisionGrid(matrix){
+        
         this.tileCollider = new TileCollider(matrix);
     }
 

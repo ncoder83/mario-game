@@ -17,7 +17,11 @@ Promise.all([
     loadKoopa(),
     loadLevel('1-1')
 ])
-.then(([createMario, createGoomba, createKoopa, level]) => {
+.then(([createMario,
+     createGoomba,
+     createKoopa,
+    level]) => {
+
     const camera = new Camera();
     window.camera = camera;
 
@@ -26,15 +30,16 @@ Promise.all([
 
     const goomba = createGoomba();
     goomba.pos.x = 200;
+    level.entities.add(goomba);
 
     const koopa = createKoopa();
     koopa.pos.x = 260;
-
-    level.entities.add(goomba);
     level.entities.add(koopa);
+    
+
     level.entities.add(mario);
     
-    level.comp.layers.push(createCollisionLayer());
+    //level.comp.layers.push(createCollisionLayer());
     const input = setupKeyboard(mario);   
     input.listenTo(window);
 
