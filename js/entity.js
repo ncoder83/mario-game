@@ -18,9 +18,11 @@ export class Trait{
     obstruct(){
 
     }
+    collides(us, them){
+
+    }
 
     update(){
-        console.warn('Unhandled update class in Trait');
     }
 }
 
@@ -41,15 +43,21 @@ export default class Entity{
         this[trait.NAME] = trait;
     }
 
+    collides(candidate){
+        this.traits.forEach(trait => {
+            trait.collides(this, candidate);
+        });
+    }
+
     obstruct(side){
         this.traits.forEach(trait => {
             trait.obstruct(this, side);
         });
     }
 
-    update(deltaTime){
+    update(deltaTime, level){
         this.traits.forEach(trait => {
-            trait.update(this, deltaTime);
+            trait.update(this, deltaTime, level);
         });
         this.lifetime += deltaTime;
     }
