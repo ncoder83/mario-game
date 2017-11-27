@@ -30,6 +30,7 @@ class Behavior extends Trait{
         }
     }
 }
+
 function createGoombaFactory(sprite){
 
     const walkAnim = sprite.animations.get('walk');
