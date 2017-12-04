@@ -28,6 +28,7 @@ export class Trait{
 
 export default class Entity{
     constructor(){
+        this.canCollide = true;
         this.pos = new Vec(0,0);
         this.vel = new Vec(0,0);
         this.size = new Vec(0,0);
