@@ -1,0 +1,19 @@
+{
+  "name": "mario-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ncoder83/mario-game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ncoder83/mario-game/issues"
+  },
+  "homepage": "https://github.com/ncoder83/mario-game#readme"
+}
