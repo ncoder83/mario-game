@@ -1,3 +1,4 @@
+
 import Timer from './timer.js';
 import Camera from './camera.js';
 import Entity from './entity.js';
@@ -49,7 +50,7 @@ async function main(canvas){
         level.update(deltaTime);
         camera.pos.x = Math.max(0, mario.pos.x - 100);
         level.comp.draw(context, camera);
-    }
+    };
     timer.start();  
 }
 

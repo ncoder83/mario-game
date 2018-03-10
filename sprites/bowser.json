@@ -1,0 +1,18 @@
+{
+    "imageURL": "/img/characters.gif",
+    "frames":[
+        {
+           "name":"walk-1",
+           "rect":[221,367,34,34]
+        }
+    ],
+    "animations": [
+        {
+            "name": "walk",
+            "frameLen": 0.15,
+            "frames":[
+                "walk-1"
+            ]
+        }
+    ]
+}

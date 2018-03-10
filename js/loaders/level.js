@@ -44,7 +44,7 @@ export function createLevelLoader(entityFactory){
                 levelSpec, 
                 loadSpriteSheet(levelSpec.spriteSheet)
             ]))
-            .then(([levelSpec, backgroundSprites])=> {
+            .then(([levelSpec, backgroundSprites]) => {
                 const level = new Level();
 
                 setupCollision(levelSpec, level);

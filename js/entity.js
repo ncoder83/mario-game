@@ -8,7 +8,7 @@ export const Sides = {
     BOTTOM: Symbol('bottom'),
     RIGHT: Symbol('right'),
     LEFT: Symbol('left')
-}
+};
 
 export class Trait{
     constructor(name){
@@ -60,7 +60,6 @@ export default class Entity{
             trait.collides(this, candidate);
         });
     }
-
 
     draw(){
         

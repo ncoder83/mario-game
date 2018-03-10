@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ncoder83/mario-game/issues"
   },
-  "homepage": "https://github.com/ncoder83/mario-game#readme"
+  "homepage": "https://github.com/ncoder83/mario-game#readme",
+  "jshintConfig":{
+    "esversion": "6"
+  }
 }
