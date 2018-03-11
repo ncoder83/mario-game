@@ -6,7 +6,6 @@ import Solid from '../traits/solid.js';
 import Physics from '../traits/physics.js';
 
 
-
 export function loadGoomba(){
     return loadSpriteSheet('goomba')
     .then(createGoombaFactory);

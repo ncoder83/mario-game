@@ -38,7 +38,6 @@ class Behavior extends Trait{
                 this.handleNudge(us, them);
             }
         }
-
     }
 
 

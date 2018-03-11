@@ -47,7 +47,7 @@ function createBowserFactory(sprite){
         sprite.draw(routeAnim(this), context,0,0);
     }
 
-    return function createGoomba(){
+    return function createBowser(){
         const bowser = new Entity();
         bowser.size.set(34,34);
 
