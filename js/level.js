@@ -3,7 +3,7 @@ import EntityCollider from './entityCollider.js';
 import TileCollider from './tilecollider.js';
 
 export default class Level {
-    constructor(){
+    constructor() {
         this.gravity = 1500;
         this.totalTime = 0;
 
@@ -14,14 +14,14 @@ export default class Level {
     }
 
 
-    setCollisionGrid(matrix){
-        
+    setCollisionGrid(matrix) {
+
         this.tileCollider = new TileCollider(matrix);
     }
 
-    update(deltaTime){
+    update(gameContext) {
         this.entities.forEach(entity => {
-            entity.update(deltaTime, this);
+            entity.update(gameContext, this);
         });
 
         this.entities.forEach(entity => {
@@ -32,6 +32,6 @@ export default class Level {
             entity.finalize();
         });
 
-        this.totalTime += deltaTime;
+        this.totalTime += gameContext.deltaTime;
     }
 }

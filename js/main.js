@@ -3,28 +3,30 @@ import Timer from './timer.js';
 import Camera from './camera.js';
 import Entity from './entity.js';
 import PlayerController from './traits/playercontroller.js';
-import {createLevelLoader} from './loaders/level.js';
-import {loadFont} from './loaders/font.js';
-import {loadEntities} from './entities.js';
-import {setupKeyboard} from './input.js'
-import {createCollisionLayer} from './layers/collision.js';
-import {createDashboardLayer} from './layers/dashboard.js';
+import { createLevelLoader } from './loaders/level.js';
+import { loadFont } from './loaders/font.js';
+import { loadEntities } from './entities.js';
+import { setupKeyboard } from './input.js'
+import { createCollisionLayer } from './layers/collision.js';
+import { createDashboardLayer } from './layers/dashboard.js';
 
-function createPlayerEnv(playerEntity){
+function createPlayerEnv(playerEntity) {
     const playerEnv = new Entity();
     const playerControl = new PlayerController();
-    playerControl.checkpoint.set(64,64);
+    playerControl.checkpoint.set(64, 64);
     playerControl.setPlayer(playerEntity);
     playerEnv.addTrait(playerControl);
     return playerEnv;
-    
+
 }
 
-async function main(canvas){
+async function main(canvas) {
 
     const context = canvas.getContext('2d');
+    const audioContext = new AudioContext();
+
     const [entityFactory, font] = await Promise.all([
-        loadEntities(),
+        loadEntities(audioContext),
         loadFont()
     ]);
 
@@ -35,23 +37,30 @@ async function main(canvas){
     window.camera = camera;
 
     const mario = entityFactory.mario();
-    
+
     const playerEnv = createPlayerEnv(mario);
 
     level.entities.add(playerEnv);
-    //level.comp.layers.push(createCollisionLayer(level));
+    level.comp.layers.push(createCollisionLayer(level));
     level.comp.layers.push(createDashboardLayer(font, playerEnv));
 
-    const input = setupKeyboard(mario);   
+    const input = setupKeyboard(mario);
     input.listenTo(window);
 
-    const timer = new Timer(1/60);
-    timer.update = function update(deltaTime){
-        level.update(deltaTime);
+    const gameContext = {
+        audioContext,
+        deltaTime: null
+    };
+
+
+    const timer = new Timer(1 / 60);
+    timer.update = function update(deltaTime) {
+        gameContext.deltaTime = deltaTime;
+        level.update(gameContext);
         camera.pos.x = Math.max(0, mario.pos.x - 100);
         level.comp.draw(context, camera);
     };
-    timer.start();  
+    timer.start();
 }
 
 const canvas = document.getElementById('screen');

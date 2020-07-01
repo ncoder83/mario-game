@@ -5,46 +5,56 @@ import Go from '../traits/go.js';
 import Killable from '../traits/killable.js';
 import Solid from '../traits/solid.js';
 import Physics from '../traits/physics.js';
-import {loadSpriteSheet} from '../loader.js';
-import {createAnimation} from '../anim.js';
+import { loadSpriteSheet } from '../loader.js';
+import { loadAudioBoard } from '../loaders/audio.js';
+import { createAnimation } from '../anim.js';
 
 
-const SLOW_DRAG = 1/1000;
-const FAST_DRAG = 1/5000;
+const SLOW_DRAG = 1 / 1000;
+const FAST_DRAG = 1 / 5000;
 
 
-export function loadMario(){
-    return loadSpriteSheet('mario')
-    .then(createMarioFactory);
+export function loadMario(audioContext) {
+
+    return Promise.all([
+        loadSpriteSheet('mario'),
+        loadAudioBoard('mario', audioContext)
+
+    ])
+        .then(([sprite, audio]) => {
+            return createMarioFactory(sprite, audio);
+        });
+
 }
 
-function createMarioFactory(sprite){
-
+function createMarioFactory(sprite, audio) {
+    console.log(audio);
     const runAnim = sprite.animations.get('run');
-    
-    function routeFrame(mario){
-        if(mario.jump.falling){
+
+    function routeFrame(mario) {
+        if (mario.jump.falling) {
             return 'jump';
         }
-        if(mario.go.distance > 0){
-            if((mario.vel.x > 0 && mario.go.dir < 0) || (mario.vel.x < 0 && mario.go.dir > 0))
+        if (mario.go.distance > 0) {
+            if ((mario.vel.x > 0 && mario.go.dir < 0) || (mario.vel.x < 0 && mario.go.dir > 0))
                 return 'break';
             return runAnim(mario.go.distance);
         }
         return 'idle';
     }
-    function setTurboState(turboOn){
-        this.go.dragFactor = turboOn ? FAST_DRAG: SLOW_DRAG;                
+    function setTurboState(turboOn) {
+        this.go.dragFactor = turboOn ? FAST_DRAG : SLOW_DRAG;
     }
 
-    function drawMario(context){
+    function drawMario(context) {
         sprite.draw(routeFrame(this), context, 0, 0, this.go.heading < 0);
     }
 
-    return function createMario(){
+    return function createMario() {
 
         const mario = new Entity();
-        mario.size.set(14,16);
+        mario.audio = audio;
+        mario.size.set(14, 16);
 
 
         mario.addTrait(new Physics());
