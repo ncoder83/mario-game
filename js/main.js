@@ -24,12 +24,12 @@ async function main(canvas) {
 
     const camera = new Camera();
     window.camera = camera;
-
+ 
     const mario = createPlayer(entityFactory.mario());
     
     const playerEnv = createPlayerEnv(mario);
-
     level.entities.add(playerEnv);
+
     level.comp.layers.push(createCollisionLayer(level));
     level.comp.layers.push(createDashboardLayer(font, playerEnv));
 
@@ -38,16 +38,21 @@ async function main(canvas) {
 
     const gameContext = {
         audioContext,
+        entityFactory,
         deltaTime: null
     };
 
     const timer = new Timer(1 / 60);
+
     timer.update = function update(deltaTime) {
         gameContext.deltaTime = deltaTime;
         level.update(gameContext);
+
         camera.pos.x = Math.max(0, mario.pos.x - 100);
+
         level.comp.draw(context, camera);
     };
+
     timer.start();
 }
 

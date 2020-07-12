@@ -1,29 +1,29 @@
-export default class TileResolver{
-    constructor(matrix, tileSize = 16){
+export default class TileResolver {
+    constructor(matrix, tileSize = 16) {
         this.matrix = matrix;
         this.tileSize = tileSize;
     }
 
-    toIndex(pos){
-        return Math.floor(pos/this.tileSize);
+    toIndex(pos) {
+        return Math.floor(pos / this.tileSize);
     }
 
-    toIndexRange(pos1, pos2){
-        const pMax = Math.ceil(pos2/ this.tileSize) * this.tileSize;
+    toIndexRange(pos1, pos2) {
+        const pMax = Math.ceil(pos2 / this.tileSize) * this.tileSize;
         const range = [];
         let pos = pos1;
-        do{
+        do {
             range.push(this.toIndex(pos));
             pos += this.tileSize;
         }
-        while(pos < pMax);
+        while (pos < pMax);
 
         return range;
     }
 
-    getByIndex(indexX, indexY){
+    getByIndex(indexX, indexY) {
         const tile = this.matrix.get(indexX, indexY);
-        if(tile){
+        if (tile) {
             const x1 = indexX * this.tileSize;
             const x2 = x1 + this.tileSize;
 
@@ -31,6 +31,8 @@ export default class TileResolver{
             const y2 = y1 + this.tileSize;
             return {
                 tile,
+                indexX,
+                indexY,
                 x1,
                 x2,
                 y1,
@@ -39,16 +41,16 @@ export default class TileResolver{
         }
     }
 
-    searchByPosition(posX, posY){
+    searchByPosition(posX, posY) {
         return this.getByIndex(this.toIndex(posX), this.toIndex(posY));
     }
 
-    searchByRange(x1,x2,y1,y2){
+    searchByRange(x1, x2, y1, y2) {
         const matches = [];
-        this.toIndexRange(x1,x2).forEach(indexX => {
+        this.toIndexRange(x1, x2).forEach(indexX => {
             this.toIndexRange(y1, y2).forEach(indexY => {
                 const match = this.getByIndex(indexX, indexY);
-                if(match)
+                if (match)
                     matches.push(match);
             });
         });
