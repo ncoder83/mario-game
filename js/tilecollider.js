@@ -61,9 +61,14 @@ export default class TileCollider {
     }
 
     handle(index, entity, match, resolver, gameContext, level) {
+
+        const tileCollisionContext = {
+            entity, match, resolver, gameContext, level
+        };
+
         const handler = handlers[match.tile.type];
         if (handler)
-            handler[index](entity, match, resolver, gameContext, level);
+            handler[index](tileCollisionContext);
     }
 
 }
