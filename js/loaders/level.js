@@ -37,8 +37,7 @@ export function createLevelLoader(entityFactory) {
                 loadSpriteSheet(levelSpec.spriteSheet),
                 loadMusicSheet(levelSpec.musicSheet)
             ]))
-            .then(([levelSpec, backgroundSprites, musicPlayer]) => {
-                console.log(musicPlayer);
+            .then(([levelSpec, backgroundSprites, musicPlayer]) => {                
                 const level = new Level();
                 level.music.setPlayer(musicPlayer);
                 // setupCollision(levelSpec, level);

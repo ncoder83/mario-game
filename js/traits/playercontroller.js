@@ -1,4 +1,4 @@
-import { Sides, Trait } from '../entity.js'
+import { Trait } from '../entity.js'
 import { Vec } from '../math.js';
 
 export default class PlayerController extends Trait {
@@ -8,24 +8,26 @@ export default class PlayerController extends Trait {
         this.player = null;
         this.time = 300;
         this.score = 0;
+
+        this.listen('stomp', () => {
+            this.score += 100;
+        });
+
     }
 
     setPlayer(entity) {
         this.player = entity;
-        this.player.stomper.events.listen('stomp', () => {
-            this.score += 100;
-        });        
+
     }
 
     update(entity, { deltaTime }, level) {
         if (!level.entities.has(this.player)) {
             this.player.killable.revive();
-            this.player.pos.set(64, 64);
+            this.player.pos.set(this.checkpoint.x, this.checkpoint.y);
             level.entities.add(this.player);
         }
         else {
             this.time -= deltaTime * 2;
-
         }
     }
 }
