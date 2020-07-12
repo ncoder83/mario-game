@@ -1,24 +1,13 @@
 
 import Timer from './timer.js';
 import Camera from './camera.js';
-import Entity from './entity.js';
-import PlayerController from './traits/playercontroller.js';
 import { createLevelLoader } from './loaders/level.js';
 import { loadFont } from './loaders/font.js';
 import { loadEntities } from './entities.js';
 import { setupKeyboard } from './input.js'
 import { createCollisionLayer } from './layers/collision.js';
 import { createDashboardLayer } from './layers/dashboard.js';
-
-function createPlayerEnv(playerEntity) {
-    const playerEnv = new Entity();
-    const playerControl = new PlayerController();
-    playerControl.checkpoint.set(64, 64);
-    playerControl.setPlayer(playerEntity);
-    playerEnv.addTrait(playerControl);
-    return playerEnv;
-
-}
+import { createPlayerEnv, createPlayer } from './player.js';
 
 async function main(canvas) {
 
@@ -36,8 +25,8 @@ async function main(canvas) {
     const camera = new Camera();
     window.camera = camera;
 
-    const mario = entityFactory.mario();
-
+    const mario = createPlayer(entityFactory.mario());
+    
     const playerEnv = createPlayerEnv(mario);
 
     level.entities.add(playerEnv);
@@ -51,7 +40,6 @@ async function main(canvas) {
         audioContext,
         deltaTime: null
     };
-
 
     const timer = new Timer(1 / 60);
     timer.update = function update(deltaTime) {

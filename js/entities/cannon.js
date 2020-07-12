@@ -1,72 +1,53 @@
 import Entity from '../entity.js';
-import Jump from '../traits/jump.js';
-import Stomper from '../traits/stomper.js';
-import Go from '../traits/go.js';
-import Killable from '../traits/killable.js';
-import Solid from '../traits/solid.js';
-import Physics from '../traits/physics.js';
-import { loadSpriteSheet } from '../loader.js';
+import Emitter from '../traits/emitter.js';
 import { loadAudioBoard } from '../loaders/audio.js';
-import { createAnimation } from '../anim.js';
+import { findPlayers } from '../player.js';
 
-export function loadMario(audioContext) {
+const HOLD_FIRE_THRESHOLD = 30;
 
-    return Promise.all([
-        loadSpriteSheet('mario'),
-        loadAudioBoard('mario', audioContext)
+export function loadCannon(audioContext, entityFactory) {
 
-    ])
-        .then(([sprite, audio]) => {
-            return createMarioFactory(sprite, audio);
-        });
-
+    return loadAudioBoard('cannon', audioContext).then(audio => {
+        return createCannonFactory(audio, entityFactory);
+    });
 }
 
-function createMarioFactory(sprite, audio) {
-    console.log(audio);
-    const runAnim = sprite.animations.get('run');
+function createCannonFactory(audio, entityFactory) {
 
-    function routeFrame(mario) {
-        if (mario.jump.falling) {
-            return 'jump';
+
+    function emitBullet(cannon, level) {
+        let dir = 1;
+        for (const player of findPlayers(level)) {
+            if (player.pos.x > cannon.pos.x - HOLD_FIRE_THRESHOLD &&
+                player.pos.x < cannon.pos.x + HOLD_FIRE_THRESHOLD) {
+                return;
+            }
+
+            if(player.pos.x < cannon.pos.x){
+                dir = -1;
+            }
+            else{
+                dir = 1;
+            }
         }
-        if (mario.go.distance > 0) {
-            if ((mario.vel.x > 0 && mario.go.dir < 0) || (mario.vel.x < 0 && mario.go.dir > 0))
-                return 'break';
-            return runAnim(mario.go.distance);
-        }
-        return 'idle';
-    }
-    function setTurboState(turboOn) {
-        this.go.dragFactor = turboOn ? FAST_DRAG : SLOW_DRAG;
+
+        const bullet = entityFactory.bullet();
+
+        bullet.pos.copy(cannon.pos);
+        bullet.vel.set(80 * dir, 0);
+        cannon.sounds.add('shoot');
+        level.entities.add(bullet);
     }
 
-    function drawMario(context) {
-        sprite.draw(routeFrame(this), context, 0, 0, this.go.heading < 0);
+    return function createCannon() {
+
+        const cannnon = new Entity();
+        cannnon.audio = audio;
+
+        const emitter = new Emitter();
+        emitter.interval = 4;
+        emitter.emitters.push(emitBullet);
+        cannnon.addTrait(emitter);
+        return cannnon;
     }
-
-    return function createMario() {
-
-        const mario = new Entity();
-        mario.audio = audio;
-        mario.size.set(14, 16);
-
-
-        mario.addTrait(new Physics());
-        mario.addTrait(new Solid());
-        mario.addTrait(new Go());
-        mario.addTrait(new Jump());
-        mario.addTrait(new Stomper());
-        mario.addTrait(new Killable());
-
-        mario.killable.removeAfter = 0;
-
-        mario.turbo = setTurboState;
-        mario.draw = drawMario;
-
-        mario.turbo(false);
-
-        return mario;
-    }
-
 }

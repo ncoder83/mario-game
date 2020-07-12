@@ -28,7 +28,6 @@ export function loadMario(audioContext) {
 }
 
 function createMarioFactory(sprite, audio) {
-    console.log(audio);
     const runAnim = sprite.animations.get('run');
 
     function routeFrame(mario) {
@@ -55,7 +54,6 @@ function createMarioFactory(sprite, audio) {
         const mario = new Entity();
         mario.audio = audio;
         mario.size.set(14, 16);
-
 
         mario.addTrait(new Physics());
         mario.addTrait(new Solid());
