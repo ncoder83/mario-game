@@ -5,10 +5,8 @@ import Go from '../traits/go.js';
 import Killable from '../traits/killable.js';
 import Solid from '../traits/solid.js';
 import Physics from '../traits/physics.js';
-import { loadSpriteSheet } from '../loader.js';
+import { loadSpriteSheet } from '../loaders/sprite.js';
 import { loadAudioBoard } from '../loaders/audio.js';
-import { createAnimation } from '../anim.js';
-
 
 const SLOW_DRAG = 1 / 1000;
 const FAST_DRAG = 1 / 5000;

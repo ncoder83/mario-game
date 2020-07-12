@@ -1,7 +1,7 @@
-import Entity, { Sides, Trait } from '../entity.js';
-import { loadSpriteSheet } from '../loader.js';
+import Entity, { Trait } from '../entity.js';
+import { loadSpriteSheet } from '../loaders/sprite.js';
+
 import Killable from '../traits/killable.js';
-import Solid from '../traits/solid.js';
 import Velocity from '../traits/velocity.js';
 import Gravity from '../traits/gravity.js';
 
@@ -10,7 +10,6 @@ export function loadBullet() {
     return loadSpriteSheet('bullet')
         .then(createBulletFactory);
 }
-
 
 class Behavior extends Trait {
     constructor() {
@@ -49,7 +48,7 @@ function createBulletFactory(sprite) {
     return function createbullet() {
         const bullet = new Entity();
         bullet.size.set(16, 14);
-        //bullet.vel.set(80, 0);
+
         bullet.addTrait(new Velocity());
         bullet.addTrait(new Behavior());
         bullet.addTrait(new Killable());
