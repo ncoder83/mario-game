@@ -1,4 +1,5 @@
 import Compositor from './compositor.js';
+import EventEmitter from './EventEmitter.js';
 import EntityCollider from './entityCollider.js';
 import TileCollider from './tilecollider.js';
 import MusicController from './musiccontroller.js';
@@ -8,6 +9,8 @@ export default class Level {
         this.gravity = 1500;
         this.totalTime = 0;
 
+        this.events = new EventEmitter();
+      
         this.music = new MusicController();
 
         this.comp = new Compositor();

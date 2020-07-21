@@ -8,6 +8,7 @@ import { setupKeyboard } from './input.js'
 import { createCollisionLayer } from './layers/collision.js';
 import { createDashboardLayer } from './layers/dashboard.js';
 import { createPlayerEnv, createPlayer } from './player.js';
+import LevelTimer from './traits/levelTimer.js';
 
 async function main(canvas) {
 
@@ -29,6 +30,12 @@ async function main(canvas) {
     
     const playerEnv = createPlayerEnv(mario);
     level.entities.add(playerEnv);
+
+    level.events.listen(LevelTimer.EVENT_TIMER_OK, () => {
+        level.music.player.playTrack('main');
+    });
+    level.events.listen(LevelTimer.EVENT_TIMER_HURRY, () => console.log('timer hurry') );
+
 
     level.comp.layers.push(createCollisionLayer(level));
     level.comp.layers.push(createDashboardLayer(font, playerEnv));
@@ -54,7 +61,7 @@ async function main(canvas) {
     };
 
     timer.start();
-    level.music.player.playTrack('main');
+ 
 }
 
 const canvas = document.getElementById('screen');

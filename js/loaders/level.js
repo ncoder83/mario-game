@@ -1,10 +1,24 @@
 import { Matrix } from '../math.js'
 import Level from '../level.js';
+import Entity from '../entity.js';
 import { createBackgroundLayer } from '../layers/background.js';
 import { createSpriteLayer } from '../layers/sprite.js';
 import { loadJSON } from '../loader.js';
 import { loadMusicSheet } from './music.js';
 import { loadSpriteSheet } from './sprite.js';
+import LevelTimer from '../traits/levelTimer.js';
+
+
+function createTimer() {
+    const timer = new Entity();
+    timer.addTrait(new LevelTimer());
+    return timer;
+}
+
+function setupBehavior(level) {
+    const timer = createTimer();
+    level.entities.add(timer);
+}
 
 function setupBackgrounds(levelSpec, level, backgroundSprites) {
     levelSpec.layers.forEach(layer => {
@@ -37,13 +51,13 @@ export function createLevelLoader(entityFactory) {
                 loadSpriteSheet(levelSpec.spriteSheet),
                 loadMusicSheet(levelSpec.musicSheet)
             ]))
-            .then(([levelSpec, backgroundSprites, musicPlayer]) => {                
+            .then(([levelSpec, backgroundSprites, musicPlayer]) => {
                 const level = new Level();
                 level.music.setPlayer(musicPlayer);
                 // setupCollision(levelSpec, level);
                 setupBackgrounds(levelSpec, level, backgroundSprites);
                 setupEntities(levelSpec, level, entityFactory);
-
+                setupBehavior(level);
                 return level;
             });
     };

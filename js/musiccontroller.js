@@ -7,4 +7,12 @@ export default class MusicController {
         this.player = player;
     }
 
+    playTheme(){
+        this.player.playTrack('main');
+    }
+
+    playHurryTheme(){
+        this.player.playTrack('hurry');
+    }
+    
 }
