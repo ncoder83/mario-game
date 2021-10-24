@@ -10,6 +10,7 @@ import { createDashboardLayer } from './layers/dashboard.js';
 import { createPlayerEnv, createPlayer } from './player.js';
 import LevelTimer from './traits/levelTimer.js';
 
+
 async function main(canvas) {
 
     const context = canvas.getContext('2d');
