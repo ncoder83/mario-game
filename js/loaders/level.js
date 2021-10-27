@@ -18,6 +18,15 @@ function createTimer() {
 function setupBehavior(level) {
     const timer = createTimer();
     level.entities.add(timer);
+
+    level.events.listen(LevelTimer.EVENT_TIMER_OK, () => {
+        level.music.playTheme();
+    });
+
+    level.events.listen(LevelTimer.EVENT_TIMER_HURRY, () => {
+        level.music.playHurryTheme();   
+    });
+
 }
 
 function setupBackgrounds(levelSpec, level, backgroundSprites) {
