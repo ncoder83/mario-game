@@ -18,7 +18,7 @@ export function loadEntities(audioContext) {
         loadKoopa(audioContext).then(AddAs('koopa')),
         loadBowser(audioContext).then(AddAs('bowser')),
         loadBullet(audioContext).then(AddAs("bullet")),
-        loadCannon(audioContext, entityFactories).then(AddAs("cannon"))
+        loadCannon(audioContext).then(AddAs("cannon"))
     ])
         .then(() => entityFactories);
 }

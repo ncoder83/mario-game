@@ -1,26 +1,29 @@
-import KeyboardState from './keyboardstate.js';
+import InputRouter from "./InputRouter.js";
+import KeyboardState from "./KeyboardState.js";
 
-export function setupKeyboard(mario){
-    const input = new KeyboardState();
-   
-    input.addMapping('Space', keyState => {
-        if(keyState)
-            mario.jump.start();
-        else
-            mario.jump.cancel();
-    });
+export function setupKeyboard(window) {
 
-    input.addMapping('ShiftLeft', keyState => {
-        mario.turbo(keyState);
-    });
+  const input = new KeyboardState();
+  const router = new InputRouter();
+  
+  input.listenTo(window);
 
-    input.addMapping('ArrowRight', keyState => {
-        mario.go.dir += keyState ? 1: -1;
-    });
+  input.addMapping("Space", (keyState) => {
+    if (keyState) router.route((entity) => entity.jump.start());
+    else router.route((entity) => entity.jump.cancel());
+  });
 
-    input.addMapping('ArrowLeft', keyState => {
-        mario.go.dir += -keyState? -1: 1;
-    });
+  input.addMapping("ShiftLeft", (keyState) => {
+    router.route((entity) => entity.turbo(keyState));
+  });
 
-    return input;
+  input.addMapping("ArrowRight", (keyState) => {
+    router.route((entity) => (entity.go.dir += keyState ? 1 : -1));
+  });
+
+  input.addMapping("ArrowLeft", (keyState) => {
+    router.route((entity) => (entity.go.dir += -keyState ? -1 : 1));
+  });
+
+  return router;
 }

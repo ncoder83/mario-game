@@ -1,6 +1,6 @@
 import { Matrix } from '../math.js'
-import Level from '../level.js';
-import Entity from '../entity.js';
+import Level from '../Level.js';
+import Entity from '../Entity.js';
 import { createBackgroundLayer } from '../layers/background.js';
 import { createSpriteLayer } from '../layers/sprite.js';
 import { loadJSON } from '../loader.js';
@@ -13,6 +13,10 @@ function createTimer() {
     const timer = new Entity();
     timer.addTrait(new LevelTimer());
     return timer;
+}
+
+function loadPattern(name){
+    return loadJSON(`/sprites/patterns/${name}.json`)
 }
 
 function setupBehavior(level) {
@@ -29,9 +33,9 @@ function setupBehavior(level) {
 
 }
 
-function setupBackgrounds(levelSpec, level, backgroundSprites) {
+function setupBackgrounds(levelSpec, level, backgroundSprites, patterns) {
     levelSpec.layers.forEach(layer => {
-        const grid = createGrid(layer.tiles, levelSpec.patterns);
+        const grid = createGrid(layer.tiles, patterns);
         const backgroundLayer = createBackgroundLayer(level, grid, backgroundSprites);
         level.comp.layers.push(backgroundLayer);
         level.tileCollider.addGrid(grid);
@@ -58,13 +62,15 @@ export function createLevelLoader(entityFactory) {
             .then(levelSpec => Promise.all([
                 levelSpec,
                 loadSpriteSheet(levelSpec.spriteSheet),
-                loadMusicSheet(levelSpec.musicSheet)
+                loadMusicSheet(levelSpec.musicSheet),
+                loadPattern(levelSpec.patternSheet)
             ]))
-            .then(([levelSpec, backgroundSprites, musicPlayer]) => {
+            .then(([levelSpec, backgroundSprites, musicPlayer, patterns]) => {
                 const level = new Level();
+                level.name = name;
                 level.music.setPlayer(musicPlayer);
-                // setupCollision(levelSpec, level);
-                setupBackgrounds(levelSpec, level, backgroundSprites);
+            
+                setupBackgrounds(levelSpec, level, backgroundSprites, patterns);
                 setupEntities(levelSpec, level, entityFactory);
                 setupBehavior(level);
                 return level;

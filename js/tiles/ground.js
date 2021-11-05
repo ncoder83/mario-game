@@ -1,4 +1,4 @@
-import { Sides } from "../entity.js";
+import { Sides } from "../Entity.js";
 
 
 function handleX({ entity, match }) {

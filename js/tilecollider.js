@@ -1,10 +1,12 @@
 import TileResolver from './tileresolver.js';
 import { ground } from "./tiles/ground.js"
 import { brick } from './tiles/brick.js';
+import { coin } from './tiles/coin.js';
 
 const handlers = {
     "ground": ground,
-    "brick": brick
+    "brick": brick,
+    "coin": coin
 };
 
 export default class TileCollider {

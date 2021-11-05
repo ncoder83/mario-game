@@ -1,6 +1,6 @@
 
 import { Vec } from './math.js';
-import BoundingBox from './boundingBox.js';
+import BoundingBox from './BoundingBox.js';
 import AudioBoard from './AudioBoard.js';
 import EventBuffer from './EventBuffer.js';
 
@@ -83,7 +83,7 @@ export default class Entity {
 
     finalize() {
 
-        this.events.emit(Trait.EVENT_TASK);
+        this.events.emit(Trait.EVENT_TASK, this);
 
         this.traits.forEach(trait => {
             trait.finalize(this);

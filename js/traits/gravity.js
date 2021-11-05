@@ -1,4 +1,4 @@
-import {Trait} from '../entity.js'
+import {Trait} from '../Entity.js'
 
 export default class Gravity extends Trait{
     constructor(){

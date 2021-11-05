@@ -1,4 +1,4 @@
-import Entity, { Sides, Trait } from '../entity.js';
+import Entity, { Sides, Trait } from '../Entity.js';
 import { loadSpriteSheet } from '../loaders/sprite.js';
 import Killable from '../traits/killable.js';
 import Solid from '../traits/solid.js';

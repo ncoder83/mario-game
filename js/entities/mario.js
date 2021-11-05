@@ -1,4 +1,4 @@
-import Entity from '../entity.js';
+import Entity from '../Entity.js';
 import Jump from '../traits/jump.js';
 import Stomper from '../traits/stomper.js';
 import Go from '../traits/go.js';
