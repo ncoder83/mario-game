@@ -3,7 +3,7 @@ import Compositor from './Compositor.js';
 import EventEmitter from './EventEmitter.js';
 import EntityCollider from './EntityCollider.js';
 import TileCollider from './tilecollider.js';
-import MusicController from './musiccontroller.js';
+import MusicController from './MusicController.js';
 import { findPlayers } from './player.js';
 import Scene from './Scene.js';
 
@@ -16,6 +16,7 @@ function focusPlayer(level){
 
 
 export default class Level  extends Scene {
+    static EVENT_TRIGGER = Symbol('trigger');
     constructor() {
         super();
         this.name = '';
@@ -48,5 +49,9 @@ export default class Level  extends Scene {
         });
         focusPlayer(this);
         this.totalTime += gameContext.deltaTime;
+    }
+
+    pause(){
+        this.music.pause();
     }
 }

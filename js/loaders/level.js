@@ -7,12 +7,19 @@ import { loadJSON } from '../loader.js';
 import { loadMusicSheet } from './music.js';
 import { loadSpriteSheet } from './sprite.js';
 import LevelTimer from '../traits/levelTimer.js';
+import Trigger from '../traits/Trigger.js';
 
 
 function createTimer() {
     const timer = new Entity();
     timer.addTrait(new LevelTimer());
     return timer;
+}
+
+function createTrigger(){
+    const entity = new Entity();
+    entity.addTrait(new Trigger());
+    return entity;
 }
 
 function loadPattern(name){
@@ -55,6 +62,23 @@ function setupEntities(levelSpec, level, entityFactory) {
     level.comp.layers.push(spriteLayer);
 }
 
+function setupTriggers(levelSpec, level){
+    if(!levelSpec.triggers){
+        return;
+    }
+
+    for( const triggerSpec of levelSpec.triggers){
+        const entity = createTrigger();
+        entity.trigger.conditions.push((entity, actors, gc, level) => {
+            level.events.emit(Level.EVENT_TRIGGER, triggerSpec, entity, actors);
+        });
+        console.log(entity);
+        entity.size.set(64,64);
+        entity.pos.set(triggerSpec.pos[0], triggerSpec.pos[1]);
+        level.entities.add(entity);
+    }
+}
+
 export function createLevelLoader(entityFactory) {
 
     return function loadLevel(name) {
@@ -72,6 +96,7 @@ export function createLevelLoader(entityFactory) {
             
                 setupBackgrounds(levelSpec, level, backgroundSprites, patterns);
                 setupEntities(levelSpec, level, entityFactory);
+                setupTriggers(levelSpec, level);
                 setupBehavior(level);
                 return level;
             });

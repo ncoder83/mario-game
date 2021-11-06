@@ -1,5 +1,5 @@
 import { loadJSON } from '../loader.js';
-import MusicPlayer from '../musicplayer.js';
+import MusicPlayer from '../MusicPlayer.js';
 
 export function loadMusicSheet(name,) {
 

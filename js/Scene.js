@@ -16,4 +16,9 @@ export default class Scene {
 
     update(gameContext) {
     }
+
+
+    pause(){
+        console.log('Pause', this);
+    }
 }
