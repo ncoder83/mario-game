@@ -1,6 +1,5 @@
 import { Sides } from "../Entity.js";
 
-
 function handleX({ entity, match }) {
     if (entity.vel.x > 0) {
         if (entity.bounds.right > match.x1) {
@@ -13,7 +12,6 @@ function handleX({ entity, match }) {
         }
     }
 }
-
 
 function handleY({ entity, match, resolver, gameContext, level }) {
     if (entity.vel.y > 0) {

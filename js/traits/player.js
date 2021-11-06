@@ -1,6 +1,5 @@
-import { Trait } from '../Entity.js'
+import Trait  from '../Trait.js';
 import Stomper from './stomper.js';
-
 
 const COIN_MAX_THRESHOLD = 100;
 
