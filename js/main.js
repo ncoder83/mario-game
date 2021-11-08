@@ -7,12 +7,14 @@ import { createCollisionLayer } from "./layers/collision.js";
 import { createDashboardLayer } from "./layers/dashboard.js";
 import { createTextLayer } from "./layers/text.js";
 import { createColorLayer } from "./layers/color.js";
-import { createPlayerEnv, createPlayer } from "./player.js";
+import { createPlayerEnv, makePlayer } from "./player.js";
 import SceneRunner from "./SceneRunner.js";
 import { createPlayerProgressLayer } from "./layers/player-progress.js";
+import { findPlayers } from "./player.js";
 import TimedScene from "./TimedScene.js";
 import Scene from "./Scene.js";
 import Level from "./Level.js";
+import Player from "./traits/Player.js";
 
 async function main(canvas) {
   const videoContext = canvas.getContext("2d");
@@ -26,10 +28,13 @@ async function main(canvas) {
   const loadLevel = await createLevelLoader(entityFactory);
   const sceneRunner = new SceneRunner();
 
-  const mario = createPlayer(entityFactory.mario());
-  mario.player.name = "MARIO";
+  const mario = entityFactory.mario();
+  makePlayer(mario, 'MARIO');
+  window.mario = mario;
+
   const inputRouter = setupKeyboard(window);
   inputRouter.addReceiver(mario);
+
   async function runLevel(name) {
 
     const loadScreen = new Scene();
@@ -42,11 +47,9 @@ async function main(canvas) {
 
     level.events.listen(Level.EVENT_TRIGGER, (spec, trigger, touches) => {
       if (spec.type === "teleport") {
-        for (const entity of touches) {
-          if (entity.player) {
+        for (const _ of findPlayers(touches)) {
             runLevel(spec.name);
             return;
-          }
         }
       }
     });
@@ -66,7 +69,7 @@ async function main(canvas) {
     waitScreen.comp.layers.push(playerProgressLayer);
     sceneRunner.addScene(waitScreen);
 
-    level.comp.layers.push(createCollisionLayer(level));
+    // level.comp.layers.push(createCollisionLayer(level));
     level.comp.layers.push(dashboardLayer);
     sceneRunner.addScene(level);
     sceneRunner.runNext();
@@ -88,7 +91,7 @@ async function main(canvas) {
   };
 
   timer.start();
-  runLevel('debug-progression');
+  runLevel('1-1');
   
 }
 

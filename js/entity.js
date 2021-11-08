@@ -30,11 +30,11 @@ export default class Entity {
         this.bounds = new BoundingBox(this.pos, this.size, this.offset);
         this.lifetime = 0;
 
-        this.traits = [];
+        this.traits = new Map();
     }
 
     addTrait(trait) {
-        this.traits.push(trait);
+        this.traits.set(trait.constructor, trait);
         this[trait.NAME] = trait;
     }
 

@@ -1,5 +1,7 @@
 import InputRouter from "./InputRouter.js";
 import KeyboardState from "./KeyboardState.js";
+import Jump from "./traits/Jump.js";
+import Go from "./traits/Go.js";
 
 export function setupKeyboard(window) {
 
@@ -9,8 +11,8 @@ export function setupKeyboard(window) {
   input.listenTo(window);
 
   input.addMapping("Space", (keyState) => {
-    if (keyState) router.route((entity) => entity.jump.start());
-    else router.route((entity) => entity.jump.cancel());
+    if (keyState) router.route((entity) => entity.traits.get(Jump).start());
+    else router.route((entity) => entity.traits.get(Jump).cancel());
   });
 
   input.addMapping("ShiftLeft", (keyState) => {
@@ -18,11 +20,11 @@ export function setupKeyboard(window) {
   });
 
   input.addMapping("ArrowRight", (keyState) => {
-    router.route((entity) => (entity.go.dir += keyState ? 1 : -1));
+    router.route((entity) => (entity.traits.get(Go).dir += keyState ? 1 : -1));
   });
 
   input.addMapping("ArrowLeft", (keyState) => {
-    router.route((entity) => (entity.go.dir += -keyState ? -1 : 1));
+    router.route((entity) => (entity.traits.get(Go).dir += -keyState ? -1 : 1));
   });
 
   return router;

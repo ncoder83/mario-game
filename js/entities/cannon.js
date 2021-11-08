@@ -1,5 +1,5 @@
 import Entity from "../Entity.js";
-import Emitter from "../traits/emitter.js";
+import Emitter from "../traits/Emitter.js";
 import { loadAudioBoard } from "../loaders/audio.js";
 import { findPlayers } from "../player.js";
 
@@ -14,7 +14,7 @@ export function loadCannon(audioContext) {
 function createCannonFactory(audio) {
   function emitBullet(cannon, gameContext, level) {
     let dir = 1;
-    for (const player of findPlayers(level)) {
+    for (const player of findPlayers(level.entities)) {
       if (
         player.pos.x > cannon.pos.x - HOLD_FIRE_THRESHOLD &&
         player.pos.x < cannon.pos.x + HOLD_FIRE_THRESHOLD

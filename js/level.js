@@ -9,11 +9,10 @@ import Scene from './Scene.js';
 
 
 function focusPlayer(level){
-    for(const player of findPlayers(level)){
+    for(const player of findPlayers(level.entities)){
         level.camera.pos.x = Math.max(0, player.pos.x - 100);
     }
 }
-
 
 export default class Level  extends Scene {
     static EVENT_TRIGGER = Symbol('trigger');

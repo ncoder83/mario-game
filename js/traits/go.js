@@ -2,7 +2,8 @@ import Trait  from '../Trait.js';
 
 export default class Go extends Trait {
     constructor() {
-        super('go');
+        super();
+        
         this.dir = 0;
         this.acceleration = 400;
         this.deceleration = 300;
@@ -10,7 +11,6 @@ export default class Go extends Trait {
 
         this.distance = 0;
         this.heading = 1;
-
     }
 
     update(entity, {deltaTime}) {        

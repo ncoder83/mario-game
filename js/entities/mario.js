@@ -1,16 +1,15 @@
 import Entity from '../Entity.js';
-import Jump from '../traits/jump.js';
-import Stomper from '../traits/stomper.js';
-import Go from '../traits/go.js';
-import Killable from '../traits/killable.js';
-import Solid from '../traits/solid.js';
-import Physics from '../traits/physics.js';
+import Jump from '../traits/Jump.js';
+import Stomper from '../traits/Stomper.js';
+import Go from '../traits/Go.js';
+import Killable from '../traits/Killable.js';
+import Solid from '../traits/Solid.js';
+import Physics from '../traits/Physics.js';
 import { loadSpriteSheet } from '../loaders/sprite.js';
 import { loadAudioBoard } from '../loaders/audio.js';
 
 const SLOW_DRAG = 1 / 1000;
 const FAST_DRAG = 1 / 5000;
-
 
 export function loadMario(audioContext) {
 
@@ -29,22 +28,22 @@ function createMarioFactory(sprite, audio) {
     const runAnim = sprite.animations.get('run');
 
     function routeFrame(mario) {
-        if (mario.jump.falling) {
+        if (mario.traits.get(Jump).falling) {
             return 'jump';
         }
-        if (mario.go.distance > 0) {
-            if ((mario.vel.x > 0 && mario.go.dir < 0) || (mario.vel.x < 0 && mario.go.dir > 0))
+        if (mario.traits.get(Go).distance > 0) {
+            if ((mario.vel.x > 0 && mario.traits.get(Go).dir < 0) || (mario.vel.x < 0 && mario.traits.get(Go).dir > 0))
                 return 'break';
-            return runAnim(mario.go.distance);
+            return runAnim(mario.traits.get(Go).distance);
         }
         return 'idle';
     }
     function setTurboState(turboOn) {
-        this.go.dragFactor = turboOn ? FAST_DRAG : SLOW_DRAG;
+        this.traits.get(Go).dragFactor = turboOn ? FAST_DRAG : SLOW_DRAG;
     }
 
     function drawMario(context) {
-        sprite.draw(routeFrame(this), context, 0, 0, this.go.heading < 0);
+        sprite.draw(routeFrame(this), context, 0, 0, this.traits.get(Go).heading < 0);
     }
 
     return function createMario() {
@@ -60,7 +59,7 @@ function createMarioFactory(sprite, audio) {
         mario.addTrait(new Stomper());
         mario.addTrait(new Killable());
 
-        mario.killable.removeAfter = 0;
+        mario.traits.get(Killable).removeAfter = 0;
 
         mario.turbo = setTurboState;
         mario.draw = drawMario;

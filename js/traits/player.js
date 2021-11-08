@@ -1,11 +1,11 @@
 import Trait  from '../Trait.js';
-import Stomper from './stomper.js';
+import Stomper from './Stomper.js';
 
 const COIN_MAX_THRESHOLD = 100;
 
 export default class Player extends Trait {
     constructor() {
-        super('player');
+        super();
         this.name = 'UNNAMMED';
         this.coins = 0;
         this.lives = 3;

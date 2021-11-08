@@ -2,9 +2,10 @@ import Entity from '../Entity.js';
 import Trait  from '../Trait.js';
 
 import { loadSpriteSheet } from '../loaders/sprite.js';
-import Killable from '../traits/killable.js';
-import Solid from '../traits/solid.js';
-import Physics from '../traits/physics.js';
+import Killable from '../traits/Killable.js';
+import Solid from '../traits/Solid.js';
+import Physics from '../traits/Physics.js';
+import PendulumWalk from '../traits/PendulumWalk.js';
 
 
 export function loadBowser() {
@@ -18,16 +19,16 @@ class Behavior extends Trait {
     }
 
     collides(us, them) {
-        if (us.killable.dead)
+        if (us.traits.get(Killable).dead)
             return;
 
         if (them.stomper) {
             if (them.vel.y > us.vel.y) {
-                us.killable.kill();
-                us.pendulum.speed = 0;
+                us.traits.get(Killable).kill();
+                us.traits.get(PendulumWalk).speed = 0;
             }
             else {
-                them.killable.kill();
+                them.traits.get(Killable).kill();
             }
         }
     }
@@ -38,7 +39,7 @@ function createBowserFactory(sprite) {
     const walkAnim = sprite.animations.get('walk');
 
     function routeAnim(bowser) {
-        if (bowser.killable.dead) {
+        if (bowser.traits.get(Killable).dead) {
             return 'walk';
         }
         return walkAnim(bowser.lifetime);
@@ -54,8 +55,8 @@ function createBowserFactory(sprite) {
 
         bowser.addTrait(new Physics());
         bowser.addTrait(new Solid());
-        //bowser.addTrait(new PendulumWalk());
-        //bowser.addTrait(new Behavior());
+        bowser.addTrait(new PendulumWalk());
+        bowser.addTrait(new Behavior());
         bowser.addTrait(new Killable());
         bowser.draw = drawBowser;
 

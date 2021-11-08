@@ -1,15 +1,17 @@
 import { findPlayers } from "../player.js";
+import Player from "../traits/Player.js";
+import LevelTimer from "../traits/LevelTimer.js";
 
-function getPlayerTraits(level){
-    for(const entity of findPlayers(level)){
-        return entity.player;
+function getPlayerTraits(entities){
+    for(const entity of findPlayers(entities)){
+        return entity.traits.get(Player);
     }
 }
 
-function getTimerTrait(level){
-    for(const entity of level.entities){
-        if(entity.levelTimer){
-            return entity.levelTimer;
+function getTimerTrait(entities){
+    for(const entity of entities){
+        if(entity.traits.has(LevelTimer)){
+            return entity.traits.get(LevelTimer);
         }
     }
 }
@@ -19,15 +21,15 @@ export function createDashboardLayer(font, level){
     const LINE1 = font.size;
     const LINE2 = font.size * 2;
 
-    const timerTrait = getTimerTrait(level);
+    const timerTrait = getTimerTrait(level.entities);
 
     return function drawDashboard(context){
-        const playerTrait = getPlayerTraits(level);
+        const playerTrait = getPlayerTraits(level.entities);
         
         font.print(playerTrait.name, context, 16, LINE1);
         font.print(playerTrait.score.toString().padStart(6,'0'), context, 16, LINE2);
         
-        font.print('+' + playerTrait.lives.toString().padStart(2,'0'), context, 96, LINE1);
+        // font.print('+' + playerTrait.lives.toString().padStart(2,'0'), context, 96, LINE1);
         font.print('@x' + playerTrait.coins.toString().padStart(2,'0'), context, 96, LINE2);
 
         font.print('WORLD', context, 152, LINE1);
